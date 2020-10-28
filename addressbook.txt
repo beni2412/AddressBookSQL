@@ -1,0 +1,66 @@
+UseCase1
+
+CREATE DATABASE addressbook_service; 
+USE addressbook_service; 
+SELECT DATABASE(); 
+
+--------------------------------------------
+UseCase2
+ CREATE TABLE addressbook(                                                                                           
+ -> firstName  VARCHAR(50) NOT NULL,                                                                                    
+ -> lastName   VARCHAR(50) NOT NULL,                                                                                     
+ -> address     VARCHAR(50) NOT NULL,                                                                                       
+ -> city        VARCHAR(50) NOT NULL,                                                                                          
+ -> state       VARCHAR(50) NOT NULL,                                                                                         
+ -> zip         INT unsigned NOT NULL,                                                                                            
+ -> phone       INT NOT NULL,                                                                                         
+ -> email       VARCHAR(50) NOT NULL                                                                                          
+ -> ); 
+DESCRIBE addressbook; 
+
+--------------------------------------------
+UseCase3
+ INSERT INTO addressbook VALUES 
+('Hardaman','Singh','Sector 70','Mohali','Punjab','160071','88996524','abc@gmail.com'),
+('Harman','Singh','tripuri','Patiala','Punjab','140071','77556825','ghi@gmail.com'), 
+('Madhav','Chawla','sector 5','Gurgaon','Haryana','123456','5569332','xyz@gmail.com'), 
+('Gurkirat','Singh','koregaon','pune','Maharashtra','422006','4423658','gurkeert@gmail.com'), 
+('Munna','tripathi','Mirzapur','Mirzapur','UP','220089','75251115','munna@gmail.com'); 
+
+--------------------------------------------
+UseCase4
+UPDATE addressbook SET city = 'chennai' WHERE firstName = 'Munna'; 
+
+--------------------------------------------
+UseCase5
+DELETE FROM addressbook WHERE firstName = 'Munna'; 
+
+--------------------------------------------
+UseCase6
+SELECT * FROM addressbook WHERE city = 'Mohali'; 
+SELECT * FROM addressbook WHERE state = 'UP'; 
+
+--------------------------------------------
+UseCase7
+SELECT city,COUNT(city) FROM addressbook GROUP BY city; 
+SELECT state,COUNT(state) FROM addressbook GROUP BY state;
+
+--------------------------------------------
+UseCase8
+SELECT * FROM addressbook WHERE city = 'Gurgaon' ORDER BY first_name; 
+
+--------------------------------------------
+UseCase9
+ALTER TABLE addressbook ADD name VARCHAR(50); 
+ALTER TABLE addressbook ADD type VARCHAR(50); 
+
+--------------------------------------------
+UseCase10
+INSERT INTO addressbook VALUES ('Avinash','Sidhu','magarpatta','pune','maharashtra','650089','906558592','avinash@gmail.com', NULL, 'Friend'); 
+SELECT type, COUNT(type) FROM addressbook GROUP BY type; 
+
+--------------------------------------------
+UseCase11
+INSERT INTO addressbook VALUES                 
+-> ('Dilsher','Gill','Phase 9','Moahli','Punjab','140009','9548629','dilsher@gmail.com',NULL,'Friend'),                           
+-> ('Amanjot','singh','harinder nagar','patiale','Punjab','450069','864008592','singh@gmail.com', NULL,'Family');
