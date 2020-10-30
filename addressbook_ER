@@ -1,0 +1,137 @@
+ MySQL  localhost:33060+ ssl  SQL > create database addressbook_service;
+Query OK, 1 row affected (0.3826 sec)
+ MySQL  localhost:33060+ ssl  SQL > use addressbook_service;
+Default schema set to `addressbook_service`.
+Fetching table and column names from `addressbook_service` for auto-completion... Press ^C to stop.
+ MySQL  localhost:33060+ ssl  addressbook_service  SQL > select database();
++---------------------+
+| database()          |
++---------------------+
+| addressbook_service |
++---------------------+
+1 row in set (0.0009 sec)
+ MySQL  localhost:33060+ ssl  addressbook_service  SQL > create table addressbook_main(
+                                                      -> book_name varchar(200) not null,
+                                                      -> type varchar(200) not null,
+                                                      -> primary key (book_name)
+                                                      -> );
+Query OK, 0 rows affected (1.1721 sec)
+ MySQL  localhost:33060+ ssl  addressbook_service  SQL > insert into addressbook_main values
+                                                      -> ('book1','family'),
+                                                      -> ('book2','office'),
+                                                      -> ('book3','friends');
+Query OK, 3 rows affected (0.2260 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  addressbook_service  SQL > select * from addressbook_main;
++-----------+---------+
+| book_name | type    |
++-----------+---------+
+| book1     | family  |
+| book2     | office  |
+| book3     | friends |
++-----------+---------+
+3 rows in set (0.0054 sec)
+ MySQL  localhost:33060+ ssl  addressbook_service  SQL > create table addressbook(
+                                                      -> id int not null,
+                                                      -> book_name varchar(200) references addressbook_main(book_name),
+                                                      -> first_name varchar(200) not null,
+                                                      -> last_name varchar(200) not null,
+                                                      -> primary key(id)
+                                                      -> );
+Query OK, 0 rows affected (0.4870 sec)
+ MySQL  localhost:33060+ ssl  addressbook_service  SQL > insert into addressbook values
+                                                      -> (1,'book1','Daman','Benipal'),
+                                                      -> (2,'book1','Harry','Singh'),
+                                                      -> (3,'book2','Keerat','Bhasin'),
+                                                      -> (4,'book2','Harman','Singh'),
+                                                      -> (5,'book3','Karan','Sidhu'),
+                                                      -> (6,'book3','Harshal','Bedi');
+Query OK, 6 rows affected (0.4675 sec)
+
+Records: 6  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  addressbook_service  SQL > select * from addressbook
+                                                      -> ;
++----+-----------+------------+-----------+
+| id | book_name | first_name | last_name |
++----+-----------+------------+-----------+
+|  1 | book1     | Daman      | Benipal   |
+|  2 | book1     | Harry      | Singh     |
+|  3 | book2     | Keerat     | Bhasin    |
+|  4 | book2     | Harman     | Singh     |
+|  5 | book3     | Karan      | Sidhu     |
+|  6 | book3     | Harshal    | Bedi      |
++----+-----------+------------+-----------+
+6 rows in set (0.0009 sec)
+ MySQL  localhost:33060+ ssl  addressbook_service  SQL > create table contact_details(
+                                                      -> id int references addressbook(id),
+                                                      -> phone_number varchar(200) not null,
+                                                      -> email varchar(200) not null
+                                                      -> );
+Query OK, 0 rows affected (0.2101 sec)
+ MySQL  localhost:33060+ ssl  addressbook_service  SQL > insert into contact_details values
+                                                      -> (1,'999','abc@'),
+                                                      -> (2,'888','kjj@'),
+                                                      -> (3,'555','fdg@'),
+                                                      -> (4,'654','sdf@'),
+                                                      -> (5,'585','sfb@'),
+                                                      -> (6,'222','yip@');
+Query OK, 6 rows affected (0.1280 sec)
+
+Records: 6  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  addressbook_service  SQL > select * from contact_details;
++----+--------------+-------+
+| id | phone_number | email |
++----+--------------+-------+
+|  1 | 999          | abc@  |
+|  2 | 888          | kjj@  |
+|  3 | 555          | fdg@  |
+|  4 | 654          | sdf@  |
+|  5 | 585          | sfb@  |
+|  6 | 222          | yip@  |
++----+--------------+-------+
+6 rows in set (0.0171 sec)
+ MySQL  localhost:33060+ ssl  addressbook_service  SQL > create table address(
+                                                      -> id int references addressbook(id),
+                                                      -> street varchar (200) not null,
+                                                      -> city varchar(200) not null,
+                                                      -> state varchar(200) not null,
+                                                      -> zip int not null);
+Query OK, 0 rows affected (0.5065 sec)
+ MySQL  localhost:33060+ ssl  addressbook_service  SQL > insert into address values
+                                                      -> (1,'a','b','c','465'),
+                                                      ->  (2,'d','e','f','958'),
+                                                      ->  (3,'a','b','c','152'),
+                                                      -> (4,'h','i','j','259'),
+                                                      -> (5,'k','g','d','445'),
+                                                      -> (6,'a','j','l','454');
+Query OK, 6 rows affected (0.3788 sec)
+
+Records: 6  Duplicates: 0  Warnings: 0
+ MySQL  localhost:33060+ ssl  addressbook_service  SQL > select * from address
+                                                      -> ;
++----+--------+------+-------+-----+
+| id | street | city | state | zip |
++----+--------+------+-------+-----+
+|  1 | a      | b    | c     | 465 |
+|  2 | d      | e    | f     | 958 |
+|  3 | a      | b    | c     | 152 |
+|  4 | h      | i    | j     | 259 |
+|  5 | k      | g    | d     | 445 |
+|  6 | a      | j    | l     | 454 |
++----+--------+------+-------+-----+
+6 rows in set (0.0008 sec)
+ MySQL  localhost:33060+ ssl  addressbook_service  SQL > SELECT * FROM addressbook WHERE id IN(SELECT id FROM address WHERE city = 'j');
++----+-----------+------------+-----------+
+| id | book_name | first_name | last_name |
++----+-----------+------------+-----------+
+|  6 | book3     | Harshal    | Bedi      |
++----+-----------+------------+-----------+
+1 row in set (0.0069 sec)
+ MySQL  localhost:33060+ ssl  addressbook_service  SQL > SELECT COUNT(id) FROM addressbook WHERE id IN(SELECT id FROM address WHERE city ='b');
++-----------+
+| COUNT(id) |
++-----------+
+|         2 |
++-----------+
+1 row in set (0.0040 sec)
